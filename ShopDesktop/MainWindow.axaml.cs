@@ -78,31 +78,27 @@ public partial class MainWindow : Window
         var category = CategoryBox.SelectedItem as Category;
         if (category != null && category.Id != 0)
         {
-            // Подсказка: Сейчас оно сравнивает Id ТОВАРА и Id категории. Очевидно, что они будут всегда разные.
-            // У Product есть свойство CategoryId, которое можно использовать для этого. Как мы делали на дне 3?
-            products = products.Where(p => p.Id == category.Id);
+            products = products.Where(p => p.CategoryId == category.Id);
         }
 
-        // Фильтр 2. Поиск по названию (задание 3)
+        // Фильтр 2. Поиск по названию (задание 3) — без учёта больших и маленьких букв
         var text = SearchBox.Text;
         if (!string.IsNullOrWhiteSpace(text))
         {
-            // Подсказка: Поиск по точному названию - это круто. Но что если пользователь напишет "кофе", а не "Кофе"?
-            // Используй метод .ToLower() для имени продукта и вводимого текста
-            products = products.Where(p => p.Name.Contains(text));
+            products = products.Where(p => p.Name.Contains(text, StringComparison.OrdinalIgnoreCase));
         }
 
-        // Фильтр 3. Только в наличии (задание 4) — напиши сам по образцу фильтров выше.
-        // Подсказка: галочка стоит, если InStockBox.IsChecked == true
-        
-
+        // Фильтр 3. Только в наличии (задание 4)
+        if (InStockBox.IsChecked == true)
+        {
+            products = products.Where(p => p.Stock > 0);
+        }
 
         var result = products.ToList();
         ProductsGrid.ItemsSource = result;
 
-        // Задание 5. Покажи в FoundText, сколько товаров в таблице, например: «Найдено: 3»
-        // Подсказка: Замени "НЕИЗВЕСТНО" на количество товаров в таблице. Используй свойство Count у result.
-        FoundText.Text = $"Найдено: {"НЕИЗВЕСТНО"}";
+        // Задание 5. Сколько товаров сейчас в таблице
+        FoundText.Text = $"Найдено: {result.Count}";
     }
 
     // ============ Часть B. Заказы ============

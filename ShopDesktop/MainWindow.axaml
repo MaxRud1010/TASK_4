@@ -81,9 +81,11 @@
                         <DataGrid Grid.Row="1" x:Name="ItemsGrid" IsReadOnly="True"
                                   GridLinesVisibility="All" BorderThickness="1" BorderBrush="LightGray">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="№ товара" Binding="{Binding ProductId}" Width="*" />
+                                <DataGridTextColumn Header="Товар" Binding="{Binding ProductName}" Width="*" />
+                                <DataGridTextColumn Header="№ товара" Binding="{Binding ProductId}" Width="Auto" />
                                 <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}" Width="*" />
                                 <DataGridTextColumn Header="Цена за шт., ₽" Binding="{Binding Price}" Width="*" />
+                                <DataGridTextColumn Header="Сумма, ₽" Binding="{Binding Sum}" Width="*" />
                             </DataGrid.Columns>
                         </DataGrid>
 

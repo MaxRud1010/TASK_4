@@ -122,13 +122,21 @@ public partial class MainWindow : Window
 
         StatusBox.SelectedItem = order.Status;
 
-        // Задание 6
-        // Подсказка: Здесь мы получаем список товаров в заказе по ClientId, а нужно по Id odrer'а.
-        var items = await Api.GetOrderItems(order.ClientId);
+        // Задание 6. Состав заказа получаем по Id ЗАКАЗА (было по ClientId — номеру клиента)
+        var items = await Api.GetOrderItems(order.Id);
+
+        // Бонус 11. Подставляем название товара вместо «Товар №...»
+        foreach (var item in items)
+        {
+            var product = allProducts.Find(p => p.Id == item.ProductId);
+            item.ProductName = product?.Name ?? $"Товар №{item.ProductId}";
+        }
+
         ItemsGrid.ItemsSource = items;
 
-        // Задание 7. Посчитай сумму заказа и покажи её в TotalText, например: «Сумма заказа: 24000 ₽»
-
+        // Задание 7. Сумма заказа: сложить по всем строкам «количество × цена за штуку»
+        var total = items.Sum(i => i.Quantity * i.Price);
+        TotalText.Text = $"Сумма заказа: {total} ₽";
     }
 
     // ============ Часть C. Изменение данных ============

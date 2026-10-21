@@ -40,4 +40,10 @@ public class OrderItem
     public int ProductId { get; set; }
     public int Quantity { get; set; }
     public int Price { get; set; }
+
+    // Бонус 10. Сумма строки считается сама: количество × цена за штуку
+    public int Sum => Quantity * Price;
+
+    // Бонус 11. Название товара подставляет код окна перед показом таблицы
+    public string ProductName { get; set; } = "";
 }
